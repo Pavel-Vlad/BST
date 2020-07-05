@@ -1,3 +1,5 @@
+import com.sun.istack.internal.NotNull;
+
 import java.io.*;
 import java.util.*;
 
@@ -84,6 +86,7 @@ class BST<T> {
     public BSTNode<T> FinMinMax(BSTNode<T> FromNode, boolean FindMax) {
         // ищем максимальное/минимальное в поддереве
         BSTNode<T> bstNodeResult = FromNode;
+        if (FromNode == null) return null;
 
         if (FindMax) {
             while (bstNodeResult.RightChild != null) {
@@ -94,6 +97,7 @@ class BST<T> {
                 bstNodeResult = bstNodeResult.LeftChild;
             }
         }
+
         return bstNodeResult;
     }
 
@@ -160,12 +164,14 @@ class BST<T> {
     }
 
     public int Count() {
-        // находим максимальный и минимальный ключ
+        int count = 0;
+        if (Root == null) return count;
+
+        // находим мин и макс ключ
         BSTNode<T> bstNodeMax = FinMinMax(Root, true);
         BSTNode<T> bstNodeMin = FinMinMax(Root, false);
 
         // цикл подстчета найденных узлов от мин до макс
-        int count = 0;
         for (int i = bstNodeMin.NodeKey; i <= bstNodeMax.NodeKey; i++) {
             BSTFind<T> bstFind = FindNodeByKey(i);
             if (i == bstFind.Node.NodeKey) {
