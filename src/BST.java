@@ -47,6 +47,7 @@ class BST<T> {
         // ищем в дереве узел и сопутствующую информацию по ключу
         BSTFind<T> bstFindRes = new BSTFind<>();
         BSTNode<T> tempBstNode = Root;
+        if (tempBstNode == null) return bstFindRes;
 
         while (key != tempBstNode.NodeKey) {
             if (key < tempBstNode.NodeKey) {
@@ -77,6 +78,10 @@ class BST<T> {
         if (bstFindTemp.NodeHasKey) return false; // если ключ уже есть
 
         BSTNode<T> bstNodeNew = new BSTNode<>(key, val, bstFindTemp.Node);
+        if (Root == null) {
+            Root = bstNodeNew;
+            return true;
+        }
         if (bstFindTemp.ToLeft) bstFindTemp.Node.LeftChild = bstNodeNew;
         else bstFindTemp.Node.RightChild = bstNodeNew;
 
