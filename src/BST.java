@@ -1,8 +1,4 @@
-import com.sun.istack.internal.NotNull;
-
-import java.io.*;
 import java.util.*;
-
 
 class BSTNode<T> {
     public int NodeKey; // ключ узла
@@ -189,12 +185,12 @@ class BST<T> {
 
     // обход дерева в ширину
     // возвращаем список всех узлов
-    public ArrayList<BSTNode<T>> WideAllNodes() {
-        ArrayList<BSTNode<T>> listRes = new ArrayList<>(); // результирующий список
+    public ArrayList<BSTNode> WideAllNodes() {
+        ArrayList<BSTNode> listRes = new ArrayList<>(); // результирующий список
         if (Root == null) return listRes;
 
-        BSTNode<T> node = Root;
-        ArrayList<BSTNode<T>> listTemp = new ArrayList<>();
+        BSTNode node = Root;
+        ArrayList<BSTNode> listTemp = new ArrayList<>();
 
         listTemp.add(node);
 
@@ -208,17 +204,19 @@ class BST<T> {
         return listRes;
     }
 
-    public ArrayList<BSTNode<T>> DeepAllNodes(int order) {
+    // обход дерева в глубину
+    // возвращаем список всех узлов
+    public ArrayList<BSTNode> DeepAllNodes(int order) {
         // order = 0 - инфиксная форма
         // order = 1 - постфиксная форма
         // order = 2 - префиксная форма поиска
 
-        ArrayList<BSTNode<T>> listRes = new ArrayList<>(); // результирующий список
+        ArrayList<BSTNode> listRes = new ArrayList<>(); // результирующий список
         if (Root == null) return listRes; // проверка на пустое дерево
-        Stack<BSTNode<T>> stackTemp = new Stack<>(); // используем стек как временное хранилище искомых узлов
+        Stack<BSTNode> stackTemp = new Stack<>(); // используем стек как временное хранилище искомых узлов
 
         // определяем узел с какого будем начинать
-        BSTNode<T> node = Root;
+        BSTNode node = Root;
         if (order == 0) {
             if (node.LeftChild != null) node = node.LeftChild;
         }
@@ -236,6 +234,7 @@ class BST<T> {
 
             listRes.add(node);
 
+            //
             if (stackTemp.isEmpty() && !listRes.contains(Root)) {
                 if (order == 1 && Root.RightChild != null) {
                     if (!listRes.contains(Root.RightChild)) stackTemp.push(Root.RightChild);
