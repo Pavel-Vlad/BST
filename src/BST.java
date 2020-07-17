@@ -5,7 +5,7 @@ class BSTNode<T> {
     public T NodeValue; // значение в узле
     public BSTNode<T> Parent; // родитель или null для корня
     public BSTNode<T> LeftChild; // левый потомок
-    public BSTNode<T> RightChild; // правый потомок	
+    public BSTNode<T> RightChild; // правый потомок
 
     public BSTNode(int key, T val, BSTNode<T> parent) {
         NodeKey = key;
@@ -214,37 +214,39 @@ class BST<T> {
         ArrayList<BSTNode> listRes = new ArrayList<>(); // результирующий список
         if (Root == null) return listRes; // проверка на пустое дерево
         Stack<BSTNode> stackTemp = new Stack<>(); // используем стек как временное хранилище искомых узлов
+        Stack<BSTNode> stackTemp1 = new Stack<>(); // используем стек как временное хранилище искомых узлов
 
         // определяем узел с какого будем начинать
-        BSTNode node = Root;
+        BSTNode node = Root; //
         if (order == 0) {
-            if (node.LeftChild != null) node = node.LeftChild;
+            node = FinMinMax(Root, false);
         }
         if (order == 1) {
-            if (node.LeftChild != null) node = node.LeftChild;
-            else if (node.RightChild != null) node = node.RightChild;
+            node = FinMinMax(Root, false);
+            if (node.RightChild != null) node = node.RightChild;
         }
 
         // начинаем перебор узлов используя временное хранилище - стек
         stackTemp.push(node);
         while (!stackTemp.isEmpty()) {
             node = stackTemp.pop();
+            if (order == 0) if (node.Parent != null && !listRes.contains(node.Parent)) stackTemp.push(node.Parent);
+            if (order == 1) {
+                if (node.LeftChild != null && !listRes.contains(node.LeftChild)) {
+                    stackTemp.push(node.LeftChild);
+                    continue;
+                }
+                if (node.RightChild != null && !listRes.contains(node.RightChild)) {
+                    stackTemp.push(node.RightChild);
+                    continue;
+                }
+                if (node.Parent != null && !listRes.contains(node.Parent)) stackTemp.push(node.Parent);
+            }
             if (node.RightChild != null && !listRes.contains(node.RightChild)) stackTemp.push(node.RightChild);
             if (node.LeftChild != null && !listRes.contains(node.LeftChild)) stackTemp.push(node.LeftChild);
-
             listRes.add(node);
-
-            //
-            if (stackTemp.isEmpty() && !listRes.contains(Root)) {
-                if (order == 1 && Root.RightChild != null) {
-                    if (!listRes.contains(Root.RightChild)) stackTemp.push(Root.RightChild);
-                    else stackTemp.push(Root);
-                } else if (order == 0) {
-                    stackTemp.push(Root);
-                }
-            }
         }
-
         return listRes;
     }
+
 }
