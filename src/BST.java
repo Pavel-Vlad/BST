@@ -214,7 +214,6 @@ class BST<T> {
         ArrayList<BSTNode> listRes = new ArrayList<>(); // результирующий список
         if (Root == null) return listRes; // проверка на пустое дерево
         Stack<BSTNode> stackTemp = new Stack<>(); // используем стек как временное хранилище искомых узлов
-        Stack<BSTNode> stackTemp1 = new Stack<>(); // используем стек как временное хранилище искомых узлов
 
         // определяем узел с какого будем начинать
         BSTNode node = Root; //
