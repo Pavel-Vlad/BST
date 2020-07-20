@@ -1,3 +1,4 @@
+import java.io.ByteArrayOutputStream;
 import java.util.*;
 
 class BSTNode<T> {
@@ -218,18 +219,18 @@ class BST<T> {
         // определяем узел с какого будем начинать
         BSTNode node = Root; //
         if (order == 0) {
-            node = FinMinMax(Root, false);
+            /*node = FinMinMax(Root, false);*/
+            simMethod(node, listRes);
+            return listRes;
         }
         if (order == 1) {
             node = FinMinMax(Root, false);
             if (node.RightChild != null) node = node.RightChild;
         }
-
         // начинаем перебор узлов используя временное хранилище - стек
         stackTemp.push(node);
         while (!stackTemp.isEmpty()) {
             node = stackTemp.pop();
-            if (order == 0) if (node.Parent != null && !listRes.contains(node.Parent)) stackTemp.push(node.Parent);
             if (order == 1) {
                 if (node.LeftChild != null && !listRes.contains(node.LeftChild)) {
                     stackTemp.push(node.LeftChild);
@@ -241,11 +242,22 @@ class BST<T> {
                 }
                 if (node.Parent != null && !listRes.contains(node.Parent)) stackTemp.push(node.Parent);
             }
-            if (node.RightChild != null && !listRes.contains(node.RightChild)) stackTemp.push(node.RightChild);
-            if (node.LeftChild != null && !listRes.contains(node.LeftChild)) stackTemp.push(node.LeftChild);
+            if (order == 2) {
+                if (node.RightChild != null && !listRes.contains(node.RightChild)) stackTemp.push(node.RightChild);
+                if (node.LeftChild != null && !listRes.contains(node.LeftChild)) stackTemp.push(node.LeftChild);
+            }
             listRes.add(node);
         }
         return listRes;
     }
 
+    public void simMethod(BSTNode root, ArrayList<BSTNode> res) {
+        if (root.LeftChild != null) {
+            simMethod(root.LeftChild, res);
+        }
+        res.add(root);
+        if (root.RightChild != null) {
+            simMethod(root.RightChild, res);
+        }
+    }
 }
